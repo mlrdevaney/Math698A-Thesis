@@ -1,9 +1,4 @@
 print("Script Started...")
-##########################################################################################################
-# This PyTorch version replicates the TensorFlow-based autoencoder trainer from Math 689 Thesis work.
-# It constructs an autoencoder with 1, 3, or 5 hidden layers,
-# adds noise if desired, trains the model on velocity solution data, and saves logs and weights.
-##########################################################################################################
 
 import numpy as np
 import os
@@ -12,11 +7,8 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from datetime import datetime
-from AE_DeltaF_Class_v4 import Autoencoder  # Assumes class name is Autoencoder
-import Utilities  # Custom module for loading settings, data, and handling model folders
-
-
-# Extract key training settings
+from AE_DeltaF_Class_v4 import Autoencoder  
+import Utilities  
 import argparse
 
 # ================================
@@ -223,8 +215,7 @@ for epoch in range(epochs_num):
               f"Val Loss = {val_loss:.6f}")
         if Early_Stopping:
             if patience_counter >= patience:
-                # If we early stop, make sure we save the model corresponding
-                # to the absolute lowest val loss observed
+                # If we early stop, make sure we save the model corresponding to the absolute lowest val loss observed
                 print(f"Early stopping at epoch {epoch+1}. "
                       f"Last Calculated best Val loss: {best_val_loss:.6f}, "
                       f"Lowest overall Val loss: {lowest_val_loss:.6f}")

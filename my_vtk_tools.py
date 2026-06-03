@@ -480,7 +480,7 @@ def writeVTKsolcellvalsRLG(solarry_0, grids_u, grids_v, grids_w, timestamp, path
 ##################################################
 def writeVTKsolcellvalsPolyData(solarry_0, grids_u, grids_v, grids_w, nodes_u, nodes_v, nodes_w, timestamp, path, vtkfname):
      import numpy as np
-     import os  # Make sure it's at the top of your file
+     import os
      ## Get some dimentions that we will need for our work
      ngru = grids_u.shape[1]  # number of grid points in u variable
      ngrv = grids_v.shape[1]  # number of grid points in v variable

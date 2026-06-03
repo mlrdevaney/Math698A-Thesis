@@ -194,7 +194,7 @@ def plot_moments(produced_moments_txt, saved_moments_txt, moment1, moment2, run_
     plt.ion()
     """
     Compare any two selected moments between:
-      - produced moments (your model output)
+      - produced moments (model output)
       - ground truth saved moments (true solution)
     """
 

@@ -8,9 +8,9 @@ from my_readwrite import my_read_solution, my_get_soltn_file_names
 
 path = "/Volumes/Devaney SSD/AFIT:ARCH/Nguyen_1/Data/111 New Training Data/sphomruns training half"
 
-# -------------------------
+
 # Load solutions into array
-# -------------------------
+
 start_time = time.time()
 names = my_get_soltn_file_names(path)
 
@@ -25,9 +25,9 @@ D = np.vstack(sols)
 print("Final dataset shape:", D.shape)
 print("Data loading took", time.time() - start_time, "seconds")
 
-# -------------------------
+
 # Compute singular values
-# -------------------------
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
@@ -42,9 +42,9 @@ else:
     S = np.linalg.svd(D, full_matrices=False, compute_uv=False)
 print("SVD complete in", time.time() - sv_start, "seconds")
 
-# -------------------------
+
 # Save singular values
-# -------------------------
+
 with open("singular_values(1).txt", "w") as f:
     f.write("index singular_value\n")
     for i, s in enumerate(S):

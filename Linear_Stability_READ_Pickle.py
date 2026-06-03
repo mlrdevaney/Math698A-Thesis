@@ -8,7 +8,7 @@ from BoltzCol2 import boltzcol2
 sys.path.append('/Volumes/MD Research/BoltzmannData/NN0DBlzm00/')
 from my_readwrite import my_read_solution_trim
 
-# Path to your .pkl file
+# Path to .pkl file
 pkl_path = "/Volumes/MD Research/BoltzmannData/Boltzmann_Thesis_MD/Linear_Stability.pkl"
 
 # Load the data

@@ -1,7 +1,7 @@
 ##########################################################################################################
 # This module is to read the solution files from a folder that contains all the solutions and save
 # the solution data and collision data files.
-# These pickle files will be loaded by another modulew to do the model training and model evaluation.
+# These pickle files will be loaded by another module to do the model training and model evaluation.
 # 
 ##########################################################################################################
  
@@ -92,7 +92,6 @@ def NormalLoadMaxwellDelfCollData(path):
     coll_std = np.std(coll_data_train) + eps
     coll_data_train = (coll_data_train - coll_mean) / coll_std
 
-    # OPTIONAL: return normalization constants if you want to invert later
     return delta_f_data_train, maxwellian_data_train, coll_data_train, \
             (df_mean, df_std, fm_mean, fm_std, coll_mean, coll_std)
 

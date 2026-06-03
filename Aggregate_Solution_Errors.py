@@ -152,7 +152,7 @@ for CNN_model in cnn_models:
             print(f"Skipping {run_path.name}: no time {fin_time} in macro file")
             continue
 
-        # match your predicted moment dimension (6 moments)
+        # match predicted moment dimension (6 moments)
         true_moments = true_data[idx[0], 1:21]
 
         dat_files = list(run_path.glob("*time0.0000000000_SltnColl.dat"))
@@ -239,19 +239,47 @@ for CNN_model in cnn_models:
         if pred.shape[1] < 21:
             raise ValueError(f"Predicted moments only have {pred.shape[1]} columns")
         pred_moments = pred[-1,1:21]   # drop time column
-    
-##        print(true_moments)
-##        print(pred_moments)
-##        exit()
 
         ##############################
-        # Relative error
+        # Mixed absolute/relative error
         ##############################
         if pred_moments.shape != true_moments.shape:
             print(f"Skipping {run_path.name}: shape mismatch {pred_moments.shape} vs {true_moments.shape}")
             continue
-        rel_error = np.abs(pred_moments - true_moments) / (np.abs(true_moments) + 1e-14)
-        tot_rel_error = np.linalg.norm(pred_moments - true_moments) / (np.linalg.norm(true_moments) + 1e-14)
+
+        errors = np.zeros_like(pred_moments)
+
+        # Density should be compared against exact value 1
+        errors[0] = np.abs(pred_moments[0] - 1.0)
+
+        # u,v,w should be compared against exact value 0
+        errors[1:4] = np.abs(pred_moments[1:4])
+
+        # Everything else uses relative error against macroerr.txt values
+        errors[4:] = (
+            np.abs(pred_moments[4:] - true_moments[4:])
+            / (np.abs(true_moments[4:]) + 1e-14)
+        )
+
+        # Overall model score:
+        # use same mixed convention
+        true_reference = np.copy(true_moments)
+
+        # exact targets for first four moments
+        true_reference[0] = 1.0
+        true_reference[1:4] = 0.0
+
+        diff = pred_moments - true_reference
+
+        # absolute error for first four
+        scaled_diff = np.zeros_like(diff)
+        scaled_diff[0:4] = diff[0:4]
+
+        # relative error for remaining moments
+        scaled_diff[4:] = diff[4:] / (np.abs(true_moments[4:]) + 1e-14)
+
+        tot_rel_error = np.linalg.norm(scaled_diff)
+
         sum_total_errors += tot_rel_error
         num_valid_runs += 1
         
@@ -259,7 +287,7 @@ for CNN_model in cnn_models:
         # Save
         ##############################
         with open(error_log_path, "a") as f:
-            f.write(f"{run_id} " + " ".join([f"{e:.6e}" for e in rel_error]) + "\n")
+            f.write(f"{run_id} " + " ".join([f"{e:.6e}" for e in errors]) + "\n")
     if num_valid_runs > 0:
         model_err = sum_total_errors / num_valid_runs
     else:

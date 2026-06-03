@@ -5,7 +5,7 @@ from tensorly import norm, cp_tensor, shape, reshape
 from tensorly import max, min
 from tensorly.decomposition import parafac
 
-# Path to the .pkl file you created
+# Path to the .pkl file 
 filepath = '/Volumes/Devaney SSD/BoltzmannData/Boltzmann_Thesis_MD/CP A Pickle Files/'
 filename = 'norm_A_CP_M41_R400.pkl'
 pkl_file = filepath + filename

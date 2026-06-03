@@ -1,6 +1,6 @@
 import pickle
 
-# Path to the .pkl file you created
+# Path to the .pkl file
 filepath = '/Volumes/Devaney SSD/BoltzmannData/Boltzmann_Thesis_MD/CP A Pickle Files/'
 filename = 'norm_A_CP_M41_R20.pkl'
 pkl_file = filepath + filename

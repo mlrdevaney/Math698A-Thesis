@@ -51,7 +51,7 @@ plt.show()
 
 
 
-T = 0.2  # set your temperature
+T = 0.2  # set temperature
 # --- Hermite polynomials ---
 H = [
     np.ones_like(u),   # H0
