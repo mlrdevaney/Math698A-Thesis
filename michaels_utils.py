@@ -186,12 +186,14 @@ def load_moments_file(filename):
     return data
 
 
-def plot_moments(produced_moments_txt, saved_moments_txt, moment1, moment2, run_ID, CNN_model, cons, lyap, lyap_entrop):
+def plot_moments(produced_moments_txt, saved_moments_txt, moment1, moment2, run_ID, cons, lyap, lyap_entrop, CNN_model=None):
+    import matplotlib
+    # print(matplotlib.get_backend())
     matplotlib.use("TkAgg")   # Force Tk backend BEFORE importing pyplot
 
     import matplotlib.pyplot as plt
     import numpy as np
-    plt.ion()
+    # plt.ion()
     """
     Compare any two selected moments between:
       - produced moments (model output)
@@ -240,7 +242,10 @@ def plot_moments(produced_moments_txt, saved_moments_txt, moment1, moment2, run_
     plt.suptitle(f"Run {run_ID}: {moment1} vs {moment2}", fontsize=14)
 
     # OPTIONAL: Set OS window title (works on macOS, Windows & Linux)
-    plt.gcf().canvas.manager.set_window_title(f"Run {run_ID} for {CNN_model} with {moment1} vs {moment2} H{int(cons)}L{int(lyap)}LE{int(lyap_entrop)}")
+    if CNN_model is not None:
+        plt.gcf().canvas.manager.set_window_title(f"Run {run_ID} for {CNN_model} with {moment1} vs {moment2} H{int(cons)}L{int(lyap)}LE{int(lyap_entrop)}")
+    else:
+        plt.gcf().canvas.manager.set_window_title(f"Run {run_ID} with {moment1} vs {moment2} H{int(cons)}L{int(lyap)}LE{int(lyap_entrop)}")
 
 
     plt.plot(time1, y1_1, '--', label=f"Produced {moment1}")
@@ -254,8 +259,9 @@ def plot_moments(produced_moments_txt, saved_moments_txt, moment1, moment2, run_
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.show()
-    plt.pause(0.001)
+    plt.ioff()
+    plt.show(block=True)
+    # plt.pause(0.001)
 
 def parse_run_config(config_path):
     """
